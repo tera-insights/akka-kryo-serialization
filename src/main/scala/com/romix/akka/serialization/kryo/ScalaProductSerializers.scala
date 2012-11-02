@@ -47,10 +47,10 @@ class ScalaProductSerializer ( val kryo: Kryo, val typ: Class[_]) extends Serial
 	var length:Int = 0
 	val constructor = typ.getDeclaredConstructors()(0)
 	// Serializers for each element of a product. Null if serializer is not known 
-    var serializers: Array[Serializer[_]] = null
+	var serializers: Array[Serializer[_]] = null
 	// Classes of each element of a product. Null if class is not known 
-    var elementClasses: Array[Class[_]] = null
-    var lastGenerics: Array[Class[_]] = null
+	var elementClasses: Array[Class[_]] = null
+	var lastGenerics: Array[Class[_]] = null
     	
 	implicit def bool2int(b:Boolean) = if (b) 1 else 0
 
@@ -94,7 +94,7 @@ class ScalaProductSerializer ( val kryo: Kryo, val typ: Class[_]) extends Serial
 				val suffix = productTypeName.substring("scala.Product".length)
 				try {
 					val arity = Integer.parseInt(suffix)
-					println("Arity:" + suffix)
+					if(DEBUG) debug("Arity:" + suffix)
 					setLength(arity) 
 				} catch {
 					case e:Throwable => {}
@@ -105,7 +105,7 @@ class ScalaProductSerializer ( val kryo: Kryo, val typ: Class[_]) extends Serial
 		
 		if(scope != null) {
 			if(scope.size == productInterface.get.getActualTypeArguments.length)
-				if(DEBUG) println("All type arguments are known in advance")
+				if(DEBUG) debug("All type arguments are known in advance")
 				
 		    // Init serializers
 			if(length > 0) {
@@ -128,7 +128,7 @@ class ScalaProductSerializer ( val kryo: Kryo, val typ: Class[_]) extends Serial
 							case _ => null
 						}
 						
-						if(DEBUG) println("Serializer[" + i + "] is " + serializers(i))
+						if(DEBUG) debug("Serializer[" + i + "] is " + serializers(i))
 					}
 				}
 				
