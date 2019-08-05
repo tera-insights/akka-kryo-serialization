@@ -18,7 +18,7 @@
 
 package com.romix.scala.serialization.kryo
 
-import scala.collection.Traversable
+import scala.collection.Iterable
 
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.Serializer
@@ -33,12 +33,12 @@ import com.esotericsoftware.kryo.io.Output
  * @author romix
  *
  */
-class ScalaCollectionSerializer() extends Serializer[Traversable[_]] {
+class ScalaCollectionSerializer() extends Serializer[Iterable[_]] {
 
-  override def read(kryo: Kryo, input: Input, typ: Class[Traversable[_]]): Traversable[_] = {
+  override def read(kryo: Kryo, input: Input, typ: Class[Iterable[_]]): Iterable[_] = {
     val len = input.readInt(true)
     val inst = kryo.newInstance(typ)
-    val coll = inst.asInstanceOf[Traversable[Any]].genericBuilder[Any]
+    val coll = inst.asInstanceOf[Iterable[Any]]//.genericBuilder[Any]
 
     var i = 0
     while (i < len) {
@@ -48,8 +48,8 @@ class ScalaCollectionSerializer() extends Serializer[Traversable[_]] {
     coll.result
   }
 
-  override def write(kryo: Kryo, output: Output, obj: Traversable[_]) = {
-    val collection: Traversable[_] = obj
+  override def write(kryo: Kryo, output: Output, obj: Iterable[_]) = {
+    val collection: Iterable[_] = obj
     val len = collection.size
     output.writeInt(len, true)
     collection.foreach { e: Any => kryo.writeClassAndObject(output, e) }

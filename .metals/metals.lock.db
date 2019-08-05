@@ -1,0 +1,6 @@
+#FileLock
+#Mon Aug 05 15:59:22 EDT 2019
+hostName=host-10-247-64-69.dhcp.cns.ufl.edu
+id=16c62f7eed9b672b426f7f880e97bc92d06c5a6237f
+method=file
+server=10.247.64.69\:39895
